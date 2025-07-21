@@ -10,5 +10,4 @@ class HelloController {
     fun sayHello(): String {
         return "Welcome to Evolv Defi!"
     }
-    
 }
