@@ -8,7 +8,7 @@ class HelloController {
 
     @GetMapping("/hello")
     fun sayHello(): String {
-        return "Hello, world!"
+        return "Welcome to Evolv Defi!"
     }
-
+    
 }
