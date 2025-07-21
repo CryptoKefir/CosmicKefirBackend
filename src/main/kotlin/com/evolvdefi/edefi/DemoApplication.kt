@@ -1,4 +1,4 @@
-package com.evolvdefi.demo
+package com.evolvdefi.edefi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
