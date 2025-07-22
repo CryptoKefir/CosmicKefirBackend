@@ -9,7 +9,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.Version
 import jakarta.persistence.OneToOne
 
-
 @Entity
 data class User(
     @Id
