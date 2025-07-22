@@ -1,0 +1,14 @@
+CREATE TABLE wallet (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  user_id BIGINT NOT NULL,
+  balance DECIMAL(19,2) NOT NULL,
+  currency VARCHAR(3) NOT NULL,
+  version BIGINT
+);
+
+CREATE TABLE user (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name BIGINT NOT NULL,
+  email DECIMAL(19,2) NOT NULL,
+  wallet_id BIGINT,
+);
