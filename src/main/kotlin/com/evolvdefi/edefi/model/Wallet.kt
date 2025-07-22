@@ -11,6 +11,7 @@ import java.math.BigDecimal
 
 
 @Entity
+@Data
 @Table(name = "wallet")
 class Wallet(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +24,5 @@ class Wallet(
     var balance: BigDecimal = BigDecimal.ZERO,
 
     @Column(nullable = false)
-    var currency: String = "USD",
-
-    @Version
-    var version: Long? = null
+    var currency: String = "USD"
 )
