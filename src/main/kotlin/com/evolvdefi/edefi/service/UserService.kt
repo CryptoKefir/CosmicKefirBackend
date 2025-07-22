@@ -12,7 +12,7 @@ class UserService(
 ) {
     // fun getUserByEmail(email: String): User? = userRepo.findByEmail(email)
 
-    fun getUserById(id: Long): User? = userRepository.findByIdOrNull(id)
+    fun getUserById(id: Long): User? = userRepository.findById(id).orElse(null)
 
 //   fun createUser(name: String, email: String): User =
 //     userRepo.save(User(name = name, email = email))
