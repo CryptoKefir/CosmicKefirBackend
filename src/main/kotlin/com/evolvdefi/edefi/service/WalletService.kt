@@ -8,7 +8,7 @@ import com.evolvdefi.edefi.model.Wallet
 @Service
 @Transactional
 class WalletService(
-  private val walletRepo: WalletRepository
+  private val walletRepository: WalletRepository
 ) {
 //   fun getUserByEmail(email: String): User? = userRepo.findByEmail(email)
 
@@ -16,7 +16,7 @@ class WalletService(
 //     userRepo.save(User(name = name, email = email))
 
   fun getWalletsForUser(userId: Long): List<Wallet> =
-    walletRepo.findByUserId(userId)
+    walletRepository.findByUserId(userId)
       .also { /* Optionally, ensure user exists */ }
 
 //   fun addWalletToUser(userId: Long, currency: String): Wallet {
