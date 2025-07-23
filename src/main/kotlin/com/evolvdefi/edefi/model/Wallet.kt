@@ -11,9 +11,8 @@ import java.math.BigDecimal
 
 
 @Entity
-@Data
 @Table(name = "wallet")
-class Wallet(
+data class Wallet(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
