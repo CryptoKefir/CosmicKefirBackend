@@ -1,6 +1,6 @@
 package com.evolvdefi.edefi.dto
 
-// DTO for transferring user data
+import com.evolvdefi.edefi.model.User
 
 data class UserDto(
     val id: Long,
@@ -8,5 +8,10 @@ data class UserDto(
     val email: String
 )
 
-fun com.evolvdefi.edefi.model.User.toDto() = UserDto(id, name, email)
-
+fun User.toDto(): UserDto {
+    return UserDto(
+        id = this.id,
+        name = this.name,
+        email = this.email
+    )
+}
