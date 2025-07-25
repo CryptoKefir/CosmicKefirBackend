@@ -19,9 +19,4 @@ class HelloController(private val walletService: WalletService, private val user
     fun getWalletsForUser(): List<Wallet> {
         return walletService.getWalletsForUser(0)
     }
-
-    @GetMapping("/booga")
-    fun getUserById(): User? {
-        return userService.getUserById(0)
-    }
 }

@@ -8,23 +8,23 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Column
 import jakarta.persistence.Version
 import java.math.BigDecimal
-
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.JoinColumn
+import com.evolvdefi.edefi.model.User
 
 @Entity
 @Table(name = "wallet")
-class Wallet(
+data class Wallet(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    @Column(nullable = false)
-    var userId: Long,
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    var user: User,
 
     @Column(nullable = false)
     var balance: BigDecimal = BigDecimal.ZERO,
 
     @Column(nullable = false)
-    var currency: String = "USD",
-
-    @Version
-    var version: Long? = null
+    var currency: String = "USD"
 )
