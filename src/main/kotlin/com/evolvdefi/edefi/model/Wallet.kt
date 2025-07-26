@@ -7,24 +7,20 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Column
 import jakarta.persistence.Version
+import jakarta.persistence.UniqueConstraint
 import java.math.BigDecimal
 
 
 @Entity
-@Table(name = "wallet")
+@Table(name = "wallet",
+        uniqueConstraints = [UniqueConstraint(columnNames = ["userId", "currency"])])
 class Wallet(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-
     @Column(nullable = false)
     var userId: Long,
-
-    @Column(nullable = false)
-    var balance: BigDecimal = BigDecimal.ZERO,
-
     @Column(nullable = false)
     var currency: String = "USD",
-
-    @Version
-    var version: Long? = null
+    @Column(nullable = false)
+    var balance: BigDecimal = BigDecimal.ZERO
 )
