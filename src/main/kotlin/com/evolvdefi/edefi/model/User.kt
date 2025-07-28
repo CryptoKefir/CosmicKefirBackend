@@ -10,9 +10,7 @@ data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-    var name: String,
-    var email: String,
-    var password: String,
-    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    val wallets: MutableList<Wallet> = mutableListOf()
+    val name: String,
+    val email: String,
+    val password: String
 )
