@@ -47,4 +47,6 @@ class UserService(private val userRepository: UserRepository) {
     userRepository.delete(user)
     return user.toDto()
   }
+  fun findById(id: Long): User? =
+    userRepository.findById(id).orElse(null)
 }
