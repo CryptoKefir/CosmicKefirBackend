@@ -2,6 +2,7 @@ package com.evolvdefi.edefi.model
 import jakarta.persistence.*
 import java.math.BigDecimal
 
+
 @Entity
 @Table(name = "users")
 data class User(

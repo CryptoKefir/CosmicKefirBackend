@@ -20,4 +20,6 @@ class UserService(private val userRepository: UserRepository) {
   fun getUserByEmail(email: String): User? {
     return userRepository.findUserByEmail(email)
   }
+  fun findById(id: Long): User? =
+    userRepository.findById(id).orElse(null)
 }

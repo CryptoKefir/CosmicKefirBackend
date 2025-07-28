@@ -11,6 +11,7 @@ import jakarta.persistence.UniqueConstraint
 import java.math.BigDecimal
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.FetchType
 import com.evolvdefi.edefi.model.User
 
 @Entity
@@ -19,9 +20,9 @@ import com.evolvdefi.edefi.model.User
 class Wallet(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    var userId: Long,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
+    var user: User,
     @Column(nullable = false)
     var currency: String = "USD",
     @Column(nullable = false)
