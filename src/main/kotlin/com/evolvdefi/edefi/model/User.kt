@@ -1,9 +1,11 @@
 package com.evolvdefi.edefi.model
+
 import jakarta.persistence.*
 import java.math.BigDecimal
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+    uniqueConstraints = [UniqueConstraint(columnNames = ["email"])])
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
