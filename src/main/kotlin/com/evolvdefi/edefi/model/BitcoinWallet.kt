@@ -15,9 +15,9 @@ import jakarta.persistence.FetchType
 import com.evolvdefi.edefi.model.User
 
 @Entity
-@Table(name = "ckWallet",
+@Table(name = "bitcoinWallet",
         uniqueConstraints = [UniqueConstraint(columnNames = ["userId", "network"])])
-class CKWallet(
+class BitcoinWallet(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @ManyToOne(fetch = FetchType.LAZY)

@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import com.evolvdefi.edefi.repository.WalletRepository
 import com.evolvdefi.edefi.service.UserService
 import com.evolvdefi.edefi.model.User
-import com.evolvdefi.edefi.model.CKWallet
+import com.evolvdefi.edefi.model.BitcoinWallet
 import com.evolvdefi.edefi.dto.CreateWalletDto
 import com.evolvdefi.edefi.dto.UpdateWalletBalanceDto
 import com.evolvdefi.edefi.dto.WalletDto
@@ -59,8 +59,8 @@ class WalletService(
       throw IllegalArgumentException("User with ID = $userId already has a wallet for $network")
     }
 
-    val ckWallet = CKWallet(user = user, network = Network.TESTNET.toString(), externalDescriptor = externalDescriptor.toString(), internalDescriptor = internalDescriptor.toString(), status = "active")
-    return walletRepository.save(ckWallet).toDto()
+    val bitcoinWallet = BitcoinWallet(user = user, network = Network.TESTNET.toString(), externalDescriptor = externalDescriptor.toString(), internalDescriptor = internalDescriptor.toString(), status = "active")
+    return walletRepository.save(bitcoinWallet).toDto()
   }
   // Get a list of a user's wallet
   fun getWalletsForUser(userId: Long): List<WalletDto>{
@@ -68,22 +68,22 @@ class WalletService(
     if(user == null){
       throw IllegalArgumentException("No user with ID = $userId")
     }
-    return walletRepository.findByUserId(userId).map(CKWallet::toDto)
+    return walletRepository.findByUserId(userId).map(BitcoinWallet::toDto)
   }
   // Update a user's wallet balance for a specific network
   fun updateWalletBalance(userId: Long, network: String, updateWalletBalanceDto: UpdateWalletBalanceDto): WalletDto {
-    var ckWallet = walletRepository.findByUserIdAndNetwork(userId, network)
-    if(ckWallet == null){
+    var bitcoinWallet = walletRepository.findByUserIdAndNetwork(userId, network)
+    if(bitcoinWallet == null){
       throw IllegalArgumentException("User with ID = $userId doesn't have a wallet for $network")
     }
-    ckWallet.balance = updateWalletBalanceDto.balance
-    return walletRepository.save(ckWallet).toDto()
+    bitcoinWallet.balance = updateWalletBalanceDto.balance
+    return walletRepository.save(bitcoinWallet).toDto()
   }
   // Delete a wallet by wallet ID
   fun deleteWallet(id: Long){
-    val ckWallet = walletRepository.findById(id)
+    val bitcoinWallet = walletRepository.findById(id)
       .orElseThrow { IllegalArgumentException("Wallet with ID = $id not found") }
-    walletRepository.delete(ckWallet)
+    walletRepository.delete(bitcoinWallet)
   }
   
 }
