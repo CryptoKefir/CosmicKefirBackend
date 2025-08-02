@@ -28,9 +28,9 @@ class WalletService(
     val user = userService.findById(userId)
     val mnemonic = Mnemonic(WordCount.WORDS12)
     println("Here's the seed: $mnemonic")
-    // Create a DescriptorSecretKey bound to Testnet and using an empty passphrase
+    // Create a DescriptorSecretKey bound to SIGNET and using an empty passphrase
     val descriptorSecretKey = DescriptorSecretKey(
-        network = Network.TESTNET,
+        network = Network.SIGNET,
         mnemonic = mnemonic,
         password = ""
     )
@@ -41,14 +41,14 @@ class WalletService(
     val externalDescriptor = Descriptor.newBip86(
         secretKey = descriptorSecretKey,
         keychain = KeychainKind.EXTERNAL,
-        network = Network.TESTNET
+        network = Network.SIGNET
     )
     val internalDescriptor = Descriptor.newBip86(
         secretKey = descriptorSecretKey,
         keychain = KeychainKind.INTERNAL,
-        network = Network.TESTNET
+        network = Network.SIGNET
     )
-
+    
     println("--------- Descriptors ---------")
     println("External:  ${externalDescriptor.toString()}")
     println("Internal:  ${internalDescriptor.toString()}")
@@ -59,7 +59,7 @@ class WalletService(
       throw IllegalArgumentException("User with ID = $userId already has a wallet for $network")
     }
 
-    val bitcoinWallet = BitcoinWallet(user = user, network = Network.TESTNET.toString(), externalDescriptor = externalDescriptor.toString(), internalDescriptor = internalDescriptor.toString(), status = "active")
+    val bitcoinWallet = BitcoinWallet(user = user, network = Network.SIGNET.toString(), externalDescriptor = externalDescriptor.toString(), internalDescriptor = internalDescriptor.toString(), status = "active")
     return walletRepository.save(bitcoinWallet).toDto()
   }
   // Get a list of a user's wallet
@@ -85,5 +85,20 @@ class WalletService(
       .orElseThrow { IllegalArgumentException("Wallet with ID = $id not found") }
     walletRepository.delete(bitcoinWallet)
   }
-  
+  // Generate a new address for a wallet
+  fun generateNewAddress(externalDescriptor: String, internalDescriptor: String): String {
+    // Create a wallet using provided descriptors
+    val wallet = Wallet(
+        externalDescriptor,
+        internalDescriptor,
+        Network.SIGNET,          // or MAINNET depending on your network
+        DatabaseMemoryConfig()    // for persistence, switch to Sqlite config
+    )
+
+    // Request a brand new external (receiving) address
+    val addressInfo = wallet.getAddress(AddressIndex.New)
+
+    println("Generated new address: ${addressInfo.address}")
+    return addressInfo.address
+}
 }
