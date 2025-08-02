@@ -1,6 +1,6 @@
 package com.evolvdefi.edefi.dto
 
-import com.evolvdefi.edefi.model.CKWallet
+import com.evolvdefi.edefi.model.BitcoinWallet
 import java.math.BigDecimal
 
 data class WalletDto(
@@ -9,7 +9,7 @@ data class WalletDto(
     val balance: BigDecimal
 )
 
-fun CKWallet.toDto(): WalletDto {
+fun BitcoinWallet.toDto(): WalletDto {
     return WalletDto(
         id = this.id,
         network = this.network,
