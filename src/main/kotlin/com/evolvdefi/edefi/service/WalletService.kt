@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import com.evolvdefi.edefi.repository.WalletRepository
 import com.evolvdefi.edefi.service.UserService
-import com.evolvdefi.edefi.model.Wallet
 import com.evolvdefi.edefi.model.User
+import com.evolvdefi.edefi.model.CKWallet
 import com.evolvdefi.edefi.dto.CreateWalletDto
 import com.evolvdefi.edefi.dto.UpdateWalletBalanceDto
 import com.evolvdefi.edefi.dto.WalletDto
@@ -13,6 +13,7 @@ import com.evolvdefi.edefi.dto.toEntity
 import com.evolvdefi.edefi.dto.toDto
 import java.math.BigDecimal
 
+import org.bitcoindevkit.*
 
 @Service
 @Transactional
@@ -23,16 +24,43 @@ class WalletService(
   // Create a wallet for a user
   fun createWalletForUser(createWalletDto: CreateWalletDto): WalletDto {
     val userId = createWalletDto.userId
-    val currency = createWalletDto.currency
+    val network = createWalletDto.network
     val user = userService.findById(userId)
+    val mnemonic = Mnemonic(WordCount.WORDS12)
+    println("Here's the seed: $mnemonic")
+    // Create a DescriptorSecretKey bound to Testnet and using an empty passphrase
+    val descriptorSecretKey = DescriptorSecretKey(
+        network = Network.TESTNET,
+        mnemonic = mnemonic,
+        password = ""
+    )
+    println("Generated Master (Z‑seed) + account tprv:\n${descriptorSecretKey.asString()}\n" +
+            "⚠️ Caution: the output includes the private master key and account node. Don't log this on MainNet!")
+    
+     // Build BIP‑86 descriptors (external & internal) via the template helper
+    val externalDescriptor = Descriptor.newBip86(
+        secretKey = descriptorSecretKey,
+        keychain = KeychainKind.EXTERNAL,
+        network = Network.TESTNET
+    )
+    val internalDescriptor = Descriptor.newBip86(
+        secretKey = descriptorSecretKey,
+        keychain = KeychainKind.INTERNAL,
+        network = Network.TESTNET
+    )
+
+    println("--------- Descriptors ---------")
+    println("External:  ${externalDescriptor.toString()}")
+    println("Internal:  ${internalDescriptor.toString()}")
     if(user == null){
       throw IllegalArgumentException("No user with id = $userId")
     }
-    if(walletRepository.findByUserIdAndCurrency(userId, currency) != null){
-      throw IllegalArgumentException("User with ID = $userId already has a wallet for $currency")
+    if(walletRepository.findByUserIdAndNetwork(userId, network) != null){
+      throw IllegalArgumentException("User with ID = $userId already has a wallet for $network")
     }
-    val wallet = Wallet(user = user, currency = currency)
-    return walletRepository.save(wallet).toDto()
+
+    val ckWallet = CKWallet(user = user, network = Network.TESTNET.toString(), externalDescriptor = externalDescriptor.toString(), internalDescriptor = internalDescriptor.toString(), status = "active")
+    return walletRepository.save(ckWallet).toDto()
   }
   // Get a list of a user's wallet
   fun getWalletsForUser(userId: Long): List<WalletDto>{
@@ -40,22 +68,22 @@ class WalletService(
     if(user == null){
       throw IllegalArgumentException("No user with ID = $userId")
     }
-    return walletRepository.findByUserId(userId).map(Wallet::toDto)
+    return walletRepository.findByUserId(userId).map(CKWallet::toDto)
   }
-  // Update a user's wallet balance for a specific currency
-  fun updateWalletBalance(userId: Long, currency: String, updateWalletBalanceDto: UpdateWalletBalanceDto): WalletDto {
-    var wallet = walletRepository.findByUserIdAndCurrency(userId, currency)
-    if(wallet == null){
-      throw IllegalArgumentException("User with ID = $userId doesn't have a wallet for $currency")
+  // Update a user's wallet balance for a specific network
+  fun updateWalletBalance(userId: Long, network: String, updateWalletBalanceDto: UpdateWalletBalanceDto): WalletDto {
+    var ckWallet = walletRepository.findByUserIdAndNetwork(userId, network)
+    if(ckWallet == null){
+      throw IllegalArgumentException("User with ID = $userId doesn't have a wallet for $network")
     }
-    wallet.balance = updateWalletBalanceDto.balance
-    return walletRepository.save(wallet).toDto()
+    ckWallet.balance = updateWalletBalanceDto.balance
+    return walletRepository.save(ckWallet).toDto()
   }
   // Delete a wallet by wallet ID
   fun deleteWallet(id: Long){
-    val wallet = walletRepository.findById(id)
+    val ckWallet = walletRepository.findById(id)
       .orElseThrow { IllegalArgumentException("Wallet with ID = $id not found") }
-    walletRepository.delete(wallet)
+    walletRepository.delete(ckWallet)
   }
   
 }

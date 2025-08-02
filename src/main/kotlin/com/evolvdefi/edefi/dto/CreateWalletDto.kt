@@ -1,11 +1,11 @@
 package com.evolvdefi.edefi.dto
 
-import com.evolvdefi.edefi.model.Wallet
+import com.evolvdefi.edefi.model.CKWallet
 // import com.evolvdefi.edefi.model.User
 
 data class CreateWalletDto(
     val userId: Long, 
-    val currency: String
+    val network: String
 )
 
 // fun CreateWalletDto.toEntity(): Wallet {

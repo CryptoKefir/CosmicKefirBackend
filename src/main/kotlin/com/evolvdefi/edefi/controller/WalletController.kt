@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
 import com.evolvdefi.edefi.service.WalletService
 import com.evolvdefi.edefi.service.UserService
-import com.evolvdefi.edefi.model.Wallet
 import com.evolvdefi.edefi.model.User
 import com.evolvdefi.edefi.dto.CreateWalletDto
 import com.evolvdefi.edefi.dto.WalletDto

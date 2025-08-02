@@ -1,11 +1,11 @@
 package com.evolvdefi.edefi.repository
 
-import com.evolvdefi.edefi.model.Wallet
+import com.evolvdefi.edefi.model.CKWallet
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface WalletRepository : JpaRepository<Wallet, Long> {
-  fun findByUserId(userId: Long): List<Wallet>
-  fun findByUserIdAndCurrency(userId: Long, currency: String): Wallet?
+interface WalletRepository : JpaRepository<CKWallet, Long> {
+  fun findByUserId(userId: Long): List<CKWallet>
+  fun findByUserIdAndNetwork(userId: Long, network: String): CKWallet?
 }
