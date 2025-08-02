@@ -15,16 +15,19 @@ import jakarta.persistence.FetchType
 import com.evolvdefi.edefi.model.User
 
 @Entity
-@Table(name = "wallet",
-        uniqueConstraints = [UniqueConstraint(columnNames = ["userId", "currency"])])
-class Wallet(
+@Table(name = "ckWallet",
+        uniqueConstraints = [UniqueConstraint(columnNames = ["userId", "network"])])
+class CKWallet(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
-    var user: User,
+    val user: User,
     @Column(nullable = false)
-    var currency: String = "USD",
+    val network: String,
     @Column(nullable = false)
-    var balance: BigDecimal = BigDecimal.ZERO
+    var balance: BigDecimal = BigDecimal.ZERO,
+    val externalDescriptor: String,
+    val internalDescriptor: String,
+    val status: String
 )
