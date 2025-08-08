@@ -23,7 +23,7 @@ class UserService(private val userRepository: UserRepository) {
   }
   // get all users
   fun getAllUsers(): List<UserDto> {
-    return userRepository.findAll()?.map { it.toDto() } ?: emptyList()
+    return userRepository.findAll().map { it.toDto() }
   }
   // get user by email
   fun getUserByEmail(email: String): UserDto? {
