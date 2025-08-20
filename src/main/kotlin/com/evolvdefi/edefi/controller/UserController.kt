@@ -14,16 +14,12 @@ import com.evolvdefi.edefi.model.User
 import com.evolvdefi.edefi.dto.CreateUserDto
 import com.evolvdefi.edefi.dto.UserDto
 import com.evolvdefi.edefi.dto.UpdateUserDto
+import org.springframework.web.bind.annotation.CrossOrigin
 
-
+// @CrossOrigin(origins = ["http://10.0.3.188:3000"], allowCredentials = "true")
 @RestController
 @RequestMapping("/api/users")
 class UserController(private val userService: UserService) {
-    @PostMapping("/add")
-    fun createUser(@RequestBody dto: CreateUserDto): UserDto {
-        return userService.createUser(dto)
-    }
-
     @GetMapping("/email/{email}")
     fun getUserByEmail(@PathVariable email: String): ResponseEntity<UserDto> {
         val user = userService.getUserByEmail(email)

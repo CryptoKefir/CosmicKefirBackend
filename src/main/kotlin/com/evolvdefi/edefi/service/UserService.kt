@@ -13,14 +13,6 @@ import com.evolvdefi.edefi.dto.UpdateUserDto
 @Service
 @Transactional
 class UserService(private val userRepository: UserRepository) {
-  // create user
-  fun createUser(dto: CreateUserDto): UserDto {
-    val user = dto.toEntity()
-    if (userRepository.findUserByEmail(user.email) != null) {
-      throw IllegalArgumentException("User with email ${user.email} already exists")
-    }
-    return userRepository.save(user).toDto()
-  }
   // get all users
   fun getAllUsers(): List<UserDto> {
     return userRepository.findAll().map { it.toDto() }
@@ -34,7 +26,7 @@ class UserService(private val userRepository: UserRepository) {
     val user = userRepository.findById(dto.id)
         .orElseThrow { IllegalArgumentException("User with id ${dto.id} not found") }
     val updatedUser = user.copy(
-        name = dto.name,
+        username = dto.username,
         email = dto.email,
         password = dto.password
     )

@@ -4,14 +4,14 @@ import com.evolvdefi.edefi.model.User
 
 data class UserDto(
     val id: Long,
-    val name: String,
+    val username: String,
     val email: String
 )
 
 fun User.toDto(): UserDto {
     return UserDto(
         id = this.id,
-        name = this.name,
+        username = this.username,
         email = this.email
     )
 }
