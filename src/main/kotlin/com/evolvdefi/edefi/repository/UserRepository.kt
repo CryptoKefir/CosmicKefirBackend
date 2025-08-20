@@ -8,4 +8,5 @@ import com.evolvdefi.edefi.dto.UpdateUserDto
 @Repository
 interface UserRepository : JpaRepository<User, Long> {
   fun findUserByEmail(email: String): User?
+  fun findByUsernameOrEmail(username: String, email: String): User?
 }

@@ -163,25 +163,27 @@ class BitcoinWalletService(
                 return bitcoinWallet.toDto()
         }
         // Update a user's wallet balance for a specific network
-        fun updateWalletBalance(
-                userId: Long,
-                updateWalletBalanceDto: UpdateWalletBalanceDto
-        ): WalletDto {
-                var bitcoinWallet = walletRepository.findByUserId(userId)
+        // fun updateWalletBalance(
+        //         userId: Long,
+        //         updateWalletBalanceDto: UpdateWalletBalanceDto
+        // ): WalletDto {
+        //         var bitcoinWallet = walletRepository.findByUserId(userId)
+        //         if (bitcoinWallet == null) {
+        //                 throw IllegalArgumentException(
+        //                         "User with id = $userId doesn't have a wallet"
+        //                 )
+        //         }
+        //         bitcoinWallet.balance = updateWalletBalanceDto.balance
+        //         return walletRepository.save(bitcoinWallet).toDto()
+        // }
+        // Delete a wallet by wallet ID
+        fun deleteWallet(userId: Long) {
+                val bitcoinWallet = walletRepository.findByUserId(userId)
                 if (bitcoinWallet == null) {
                         throw IllegalArgumentException(
                                 "User with id = $userId doesn't have a wallet"
                         )
                 }
-                bitcoinWallet.balance = updateWalletBalanceDto.balance
-                return walletRepository.save(bitcoinWallet).toDto()
-        }
-        // Delete a wallet by wallet ID
-        fun deleteWallet(id: Long) {
-                val bitcoinWallet =
-                        walletRepository.findById(id).orElseThrow {
-                                IllegalArgumentException("Wallet with id = $id not found")
-                        }
                 walletRepository.delete(bitcoinWallet)
         }
         // Send a transaction
