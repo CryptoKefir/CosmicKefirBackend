@@ -11,7 +11,7 @@ data class UserDto(
 fun User.toDto(): UserDto {
     return UserDto(
         id = this.id,
-        username = this.username,
-        email = this.email
+        username = this.username.lowercase(),
+        email = this.email.lowercase()
     )
 }

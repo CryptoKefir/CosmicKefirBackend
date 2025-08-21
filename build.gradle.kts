@@ -39,6 +39,9 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-security")
 
+	// BouncyCastle for SCryptPasswordEncoder
+	implementation("org.bouncycastle:bcprov-jdk18on:1.77")
+
 	// Blockchain
 	implementation("org.bitcoindevkit:bdk-jvm:1.2.0")
 }

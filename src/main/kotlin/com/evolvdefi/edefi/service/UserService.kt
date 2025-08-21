@@ -6,7 +6,7 @@ import com.evolvdefi.edefi.repository.UserRepository
 import com.evolvdefi.edefi.model.User
 import com.evolvdefi.edefi.dto.CreateUserDto
 import com.evolvdefi.edefi.dto.UserDto
-import com.evolvdefi.edefi.dto.toEntity
+// import com.evolvdefi.edefi.dto.toEntity
 import com.evolvdefi.edefi.dto.toDto
 import com.evolvdefi.edefi.dto.UpdateUserDto
 

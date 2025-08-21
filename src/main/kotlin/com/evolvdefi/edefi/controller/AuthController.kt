@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import com.evolvdefi.edefi.service.AuthService
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PathVariable
 
 
 // @CrossOrigin(origins = ["http://10.0.3.188:3000"], allowCredentials = "true")
@@ -22,5 +25,13 @@ class AuthController(private val authService: AuthService) {
     @PostMapping("/login")
     fun login(@RequestBody dto: LoginDto): UserDto {
         return authService.login(dto)
+    }
+    @GetMapping("/getallusers")
+    fun getAllUsers(): List<UserDto> {
+        return authService.getAllUsers()
+    }
+    @DeleteMapping("/deleteuser/{id}")
+    fun deleteUser(@PathVariable id: Long): UserDto {
+        return authService.deleteUser(id)
     }
 }
