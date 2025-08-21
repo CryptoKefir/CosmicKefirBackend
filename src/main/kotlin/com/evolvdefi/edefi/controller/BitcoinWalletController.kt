@@ -16,7 +16,9 @@ import com.evolvdefi.edefi.dto.WalletDto
 import com.evolvdefi.edefi.dto.UpdateWalletBalanceDto
 import com.evolvdefi.edefi.dto.SendTransactionDto
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 
+// @CrossOrigin(origins = ["http://10.0.3.188:3000"], allowCredentials = "true")
 @RestController
 @RequestMapping("api/wallet")
 class WalletController(private val bitcoinWalletService: BitcoinWalletService) {
@@ -28,13 +30,13 @@ class WalletController(private val bitcoinWalletService: BitcoinWalletService) {
     fun getWalletsForUser(@PathVariable userId: Long): WalletDto {
         return bitcoinWalletService.getWalletForUser(userId)
     }
-    @PutMapping("/updateBalance/{userId}/{currency}")
-    fun updateWalletBalance(@PathVariable userId: Long, @RequestBody updateWalletBalanceDto: UpdateWalletBalanceDto): WalletDto {
-        return bitcoinWalletService.updateWalletBalance(userId, updateWalletBalanceDto)
-    }
-    @DeleteMapping("/delete/{id}")
-    fun deleteWallet(@PathVariable id: Long): ResponseEntity<Void> {
-        bitcoinWalletService.deleteWallet(id)
+    // @PutMapping("/updateBalance/{userId}/{currency}")
+    // fun updateWalletBalance(@PathVariable userId: Long, @RequestBody updateWalletBalanceDto: UpdateWalletBalanceDto): WalletDto {
+    //     return bitcoinWalletService.updateWalletBalance(userId, updateWalletBalanceDto)
+    // }
+    @DeleteMapping("/delete/{userId}")
+    fun deleteWallet(@PathVariable userId: Long): ResponseEntity<Void> {
+        bitcoinWalletService.deleteWallet(userId)
         return ResponseEntity.noContent().build()
     }
     @PostMapping("/sendTransaction/user{userId}")
