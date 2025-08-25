@@ -7,10 +7,3 @@ data class CreateWalletDto(
     val userId: Long, 
     val network: String
 )
-
-// fun CreateWalletDto.toEntity(): Wallet {
-//     return Wallet(
-//         user = User(),
-//         currency = this.currency
-//     )
-// }

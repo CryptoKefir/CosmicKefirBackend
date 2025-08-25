@@ -10,12 +10,17 @@ import com.evolvdefi.edefi.repository.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import com.evolvdefi.edefi.service.BitcoinWalletService
+import com.evolvdefi.edefi.dto.CreateWalletDto
+import com.evolvdefi.edefi.repository.BitcoinWalletRepository
 
 @Service
 @Transactional
 class AuthService(
         private val userRepository: UserRepository,
-        private val passwordEncoder: PasswordEncoder
+        private val walletRepository: BitcoinWalletRepository,
+        private val passwordEncoder: PasswordEncoder,
+        private val bitcoinWalletService: BitcoinWalletService
 ) {
   // create user
   fun createUser(dto: CreateUserDto): UserDto {
@@ -26,6 +31,8 @@ class AuthService(
     else if (userRepository.findUserByEmail(user.email) != null) {
       throw IllegalArgumentException("User with email ${user.email} already exists")
     }
+    val createWalletDto = CreateWalletDto(userId = user.id, network = "TESTNET")
+    bitcoinWalletService.createWalletForUser(createWalletDto)
     return userRepository.save(user).toDto()
   }
   // login
