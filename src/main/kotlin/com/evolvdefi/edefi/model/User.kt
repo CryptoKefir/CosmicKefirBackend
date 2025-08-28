@@ -13,5 +13,8 @@ data class User(
     val id: Long = 0,
     val username: String,
     val email: String,
-    val password: String
+    val password: String,
+    @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var bitcoinWallet: BitcoinWallet? = null
 )
+

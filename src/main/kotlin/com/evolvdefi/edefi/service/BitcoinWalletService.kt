@@ -170,6 +170,18 @@ class BitcoinWalletService(
                 }
                 walletRepository.delete(bitcoinWallet)
         }
+        fun deleteWalletbyWalletId(walletId: Long) {
+                val bitcoinWallet = walletRepository.findById(walletId)
+                if (!bitcoinWallet.isPresent) {
+                        throw IllegalArgumentException(
+                                "Wallet with id = $walletId doesn't exist"
+                        )
+                }
+                walletRepository.delete(bitcoinWallet.get())
+        }
+        fun getWallets(): List<WalletDto> {
+                return walletRepository.findAll().map { it.toDto() }
+        }
         // Send a transaction
         fun sendTransaction(userId: Long, sendTransactionDto: SendTransactionDto): WalletDto {
                 val addressString = sendTransactionDto.addressString
