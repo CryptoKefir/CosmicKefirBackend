@@ -36,10 +36,19 @@ class WalletController(
     fun getWalletsForUser(@PathVariable userId: Long): WalletDto {
         return bitcoinWalletService.getWalletForUser(userId)
     }
-    @GetMapping("/getWallet/all")
-    fun getAllWallets(): List<WalletDto> {
-        return walletRepository.findAll().map { it.toDto() }
+    @GetMapping("/getWallets")
+    fun getWallets(): List<WalletDto> {
+        return bitcoinWalletService.getWallets()
     }
+    @DeleteMapping("/deleteWallet/{walletId}")
+    fun deleteWalletbyWalletId(@PathVariable walletId: Long): ResponseEntity<Void> {
+        bitcoinWalletService.deleteWalletbyWalletId(walletId)
+        return ResponseEntity.noContent().build()
+    }
+    // @PutMapping("/updateBalance/{userId}/{currency}")
+    // fun updateWalletBalance(@PathVariable userId: Long, @RequestBody updateWalletBalanceDto: UpdateWalletBalanceDto): WalletDto {
+    //     return bitcoinWalletService.updateWalletBalance(userId, updateWalletBalanceDto)
+    // }
     @DeleteMapping("/delete/{userId}")
     fun deleteWallet(@PathVariable userId: Long): ResponseEntity<Void> {
         bitcoinWalletService.deleteWallet(userId)
